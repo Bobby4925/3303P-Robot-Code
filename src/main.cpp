@@ -31,8 +31,8 @@ ez::Drive chassis (
   // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 36/60 which is 0.6
   ,2.222
 );
-pros::Motor intake(5, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES); 
-pros::Motor cata(14, pros::E_MOTOR_GEARSET_36,false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor intake(14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES); 
+pros::Motor cata(12, pros::E_MOTOR_GEARSET_36,false, pros::E_MOTOR_ENCODER_DEGREES);
 
 void intakeCode(int speed){
   if(pros::E_CONTROLLER_DIGITAL_L2){
@@ -49,7 +49,7 @@ void cataCode(int speed){
     toggle = true; 
   }
   if(toggle == true){
-    cata.move(speed); 
+    cata.move(-speed); 
   }
 }
 
