@@ -8,7 +8,7 @@
 4. (Use the auton selector to run the auton code)
 
 
-###### To add any changes to the code: 
+##### To add any changes to the code: 
 
 1. Fork the repo
 2. Make sure to add .vscode and compiler options folders and files respectively
