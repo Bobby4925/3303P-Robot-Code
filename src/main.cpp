@@ -34,7 +34,7 @@ ez::Drive chassis (
 pros::Motor intake(5, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES); 
 pros::Motor cata(14, pros::E_MOTOR_GEARSET_36,false, pros::E_MOTOR_ENCODER_DEGREES);
 
-void intake(int speed){
+void intakeCode(int speed){
   if(pros::E_CONTROLLER_DIGITAL_L2){
       intake.move(speed); 
   }
@@ -43,7 +43,7 @@ void intake(int speed){
   }
 }
 
-void cata(int speed){
+void cataCode(int speed){
   bool toggle = false; 
   if(pros::E_CONTROLLER_DIGITAL_R2){
     toggle = true; 
@@ -76,12 +76,8 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_left_set (pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT); // If using tank, only the left side is used. 
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y,    pros::E_CONTROLLER_DIGITAL_A);
 
-  if(!pros::competition::is_connected()) {
-    // If you're not connected to the competition switch, print out the autons
-    ez::as::auton_selector.print_autons();
-  }
-  intake(127); 
-  cata(80);
+  intakeCode(127); 
+  cataCode(80);
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
