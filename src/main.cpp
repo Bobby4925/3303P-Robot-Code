@@ -31,7 +31,27 @@ ez::Drive chassis (
   // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 36/60 which is 0.6
   ,2.222
 );
+pros::Motor intake(5, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES); 
+pros::Motor cata(14, pros::E_MOTOR_GEARSET_36,false, pros::E_MOTOR_ENCODER_DEGREES);
 
+void intake(int speed){
+  if(pros::E_CONTROLLER_DIGITAL_L2){
+      intake.move(speed); 
+  }
+  else{
+      intake.move(-speed); 
+  }
+}
+
+void cata(int speed){
+  bool toggle = false; 
+  if(pros::E_CONTROLLER_DIGITAL_R2){
+    toggle = true; 
+  }
+  if(toggle == true){
+    cata.move(speed); 
+  }
+}
 
 
 /**
@@ -46,15 +66,22 @@ void initialize() {
   
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
 
-  // Configure your chassis controls
+  // Configure your chassis controls 
   chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.opcontrol_drive_activebrake_set(0); // Sets the active brake kP. We recommend 0.1.
-  chassis.opcontrol_curve_default_set(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+  chassis.opcontrol_drive_activebrake_set(0.1); // Sets the active brake kP. We recommend 0.1.
+  chassis.opcontrol_curve_default_set(0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
   // chassis.opcontrol_curve_buttons_left_set (pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT); // If using tank, only the left side is used. 
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y,    pros::E_CONTROLLER_DIGITAL_A);
+
+  if(!pros::competition::is_connected()) {
+    // If you're not connected to the competition switch, print out the autons
+    ez::as::auton_selector.print_autons();
+  }
+  intake(127); 
+  cata(80);
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
